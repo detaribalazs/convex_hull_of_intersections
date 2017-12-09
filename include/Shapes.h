@@ -15,6 +15,8 @@ namespace gk
         { return x != p.x || y != p.y; }
     };
 
+    float distance(const Point& p1, const Point& p2);
+
     std::ostream& operator<<(std::ostream& out, const Point& p);
 
     struct LineSegment
@@ -47,5 +49,10 @@ namespace gk
     {
         Point center;
         float radius;
+
+        bool is_inside(const Point& p) const
+        {
+            return distance(center, p) < radius;
+        }
     };
 }
