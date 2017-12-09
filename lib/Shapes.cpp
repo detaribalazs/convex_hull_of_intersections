@@ -23,6 +23,21 @@ float gk::distance(const Point& p1, const Point& p2)
 }
 
 // =================================================================================================
+LineSegment::LineSegment(const Point& p1, const Point& p2)
+{
+    if (p1.x < p2.x)
+    {
+        endPoints[0] = p1;
+        endPoints[1] = p2;
+    }
+    else
+    {
+        endPoints[0] = p2;
+        endPoints[1] = p1;
+    }
+}
+
+// =================================================================================================
 float LineSegment::get_y(float x) const
 {
     return endPoints[0].y + slope() * (x - endPoints[0].x);

@@ -12,7 +12,7 @@ bool test::equals(float a, float b)
 {
     if (a == b)
         return true;
-    return std::fabs(a-b) < 1e-6;
+    return std::fabs(a-b) < 1e-5;
 }
 
 // =================================================================================================

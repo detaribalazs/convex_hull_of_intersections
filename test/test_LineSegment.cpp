@@ -31,10 +31,10 @@ TEST_CASE(LineSegment_slope)
     CHECK_EQ(l3.slope(), 0.0);
 
     LineSegment l4{Point{5,0}, Point{5,9}};
-    CHECK_EQ(l4.slope(), test::pos_inf);
+    CHECK_EQ(l4.slope(), test::neg_inf);
 
     LineSegment l5{Point{5,9}, Point{5,-1}};
-    CHECK_EQ(l5.slope(), test::neg_inf);
+    CHECK_EQ(l5.slope(), test::pos_inf);
 }
 
 // =================================================================================================

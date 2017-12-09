@@ -1,5 +1,6 @@
 #include <Intersections.h>
 
+#include <cmath>
 #include <iterator>
 #include <limits>
 
@@ -70,9 +71,66 @@ Intersections gk::intersect(const LineSegment& l1, const LineSegment& l2)
 }
 
 // =================================================================================================
-Intersections gk::intersect(const LineSegment&, const Circle&)
+inline float square(float x)
 {
-    return {};
+    return x*x;
+}
+
+// =================================================================================================
+static Intersections intersectVertical(const LineSegment& l, const Circle& c)
+{
+    assert(l[0].x == l[1].x);
+
+    if (std::fabs(c.center.x - l[0].x) > c.radius)
+        return {};
+
+    const auto ry = std::sqrt(square(c.radius) - square(c.center.x - l[0].x));
+
+    if (ry < 1e-4)
+    {
+        if (l.valid_y(c.center.y))
+            return Point{l[0].x, c.center.y};
+        return {};
+    }
+
+    Intersections isec;
+
+    if (l.valid_y(c.center.y - ry))
+        isec.add(Point{l[0].x, c.center.y - ry});
+    if (l.valid_y(c.center.y + ry))
+        isec.add(Point{l[0].x, c.center.y + ry});
+
+    return isec;
+}
+
+// =================================================================================================
+Intersections gk::intersect(const LineSegment& l, const Circle& circle)
+{
+    // both end-points inside the circle
+    if (circle.is_inside(l[0]) && circle.is_inside(l[1]))
+        return {};
+
+    if (l.is_vertical())
+        return intersectVertical(l, circle);
+
+    const auto m = l.slope();
+    const auto y1 = l.get_y(0.0);
+    const auto a = square(m) + 1;
+    const auto b = 2 * y1 * m;
+    const auto c = square(y1) - square(circle.radius);
+    const auto srbsmfac = sqrt(square(b) - 4 * a * c);
+    const float x1 = (-b + srbsmfac) / (2 * a);
+    const float x2 = (-b - srbsmfac) / (2 * a);
+
+    Intersections isec;
+
+    if (l.valid_x(x1))
+        isec.add(Point{x1, l.get_y(x1)});
+
+    if (l.valid_x(x2) && std::fabs(x2 - x1) > 1e-4)
+        isec.add(Point{x2, l.get_y(x2)});
+
+    return isec;
 }
 
 // =================================================================================================

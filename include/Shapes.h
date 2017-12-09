@@ -23,6 +23,8 @@ namespace gk
     {
         Point endPoints[2];
 
+        LineSegment(const Point& p1, const Point& p2);
+
         const Point& operator[](unsigned i) const
         { return endPoints[i]; }
 
@@ -36,6 +38,9 @@ namespace gk
         { return delta_y() / delta_x(); }
 
         bool is_vertical() const
+        { return delta_x() == 0.0; }
+
+        bool is_horizontal() const
         { return delta_x() == 0.0; }
 
         float get_y(float x) const;
