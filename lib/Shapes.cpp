@@ -58,16 +58,16 @@ float gk::distance(const Point& p1, const Point& p2)
 
 // =================================================================================================
 Line Line::operator+ (const Point& p) const
-{ return Line{a, b, c + (std::fabs(b) < 1e-6 ? a*p.x : b*p.y)}; }
+{ return Line{a, b, c + (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)}; }
 
 // =================================================================================================
 Line Line::operator- (const Point& p) const
-{ return Line{a, b, c - (std::fabs(b) < 1e-6 ? a*p.x : b*p.y)}; }
+{ return Line{a, b, c - (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)}; }
 
 // =================================================================================================
 bool Line::valid(const Point& p) const
 {
-    return std::fabs(a*p.x+b*p.y - c) < 1e-6;
+    return std::fabs(a*p.x+b*p.y - c) < 1e-5;
 }
 
 // =================================================================================================
@@ -115,15 +115,15 @@ float LineSegment::get_y(float x) const
 // =================================================================================================
 bool LineSegment::valid_x(float x) const
 {
-    return (std::min(endPoints[0].x, endPoints[1].x) - x < 1e-4)
-        && (std::max(endPoints[0].x, endPoints[1].x) - x > -1e-4);
+    return (std::min(endPoints[0].x, endPoints[1].x) - x < 1e-5)
+        && (std::max(endPoints[0].x, endPoints[1].x) - x > -1e-5);
 }
 
 // =================================================================================================
 bool LineSegment::valid_y(float y) const
 {
-    return (std::min(endPoints[0].y, endPoints[1].y) - y < 1e-4)
-        && (std::max(endPoints[0].y, endPoints[1].y) - y > -1e-4);
+    return (std::min(endPoints[0].y, endPoints[1].y) - y < 1e-5)
+        && (std::max(endPoints[0].y, endPoints[1].y) - y > -1e-5);
 }
 
 // =================================================================================================
@@ -141,5 +141,5 @@ bool Circle::is_inside(const Point& p) const
 // =================================================================================================
 bool Circle::valid(const Point& p) const
 {
-    return std::fabs(distance(center, p) - radius) < 1e-4;
+    return std::fabs(distance(center, p) - radius) < 1e-5;
 }

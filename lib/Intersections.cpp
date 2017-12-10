@@ -80,7 +80,7 @@ Intersections gk::intersect(const Line& l1, const Line& l2)
     const auto den = l1.a * l2.b - l2.a *l1.b;
 
     // the lines are parallel
-    if (std::abs(den) < 1e-6)
+    if (std::abs(den) < 1e-5)
         return {};
 
     return Point{(l1.c * l2.b - l2.c * l1.b) / den, (l1.a * l2.c - l2.a * l1.c) / den};
