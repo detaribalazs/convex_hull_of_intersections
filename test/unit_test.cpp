@@ -44,17 +44,39 @@ TestCase::~TestCase()
 }
 
 // =================================================================================================
-static void run(TestCase* tc)
+static void runTestCase(TestCase* tc)
 {
     std::cout << "-- test case: " << tc->name << std::endl;
     tc->run();
 }
 
 // =================================================================================================
-int test::runTestCases()
+static int run(const TestCases& tests)
 {
-    std::cout << "running " << testCases().size() << " test cases" << std::endl;
-    std::for_each(testCases().begin(), testCases().end(), run);
-    std::cout << "finished running " << testCases().size() << " test cases" << std::endl;
+    std::cout << "running " << tests.size() << " test cases" << std::endl;
+    std::for_each(tests.begin(), tests.end(), runTestCase);
+    std::cout << "finished running " << tests.size() << " test cases" << std::endl;
     return 0;
+}
+
+// =================================================================================================
+int test::runTestCases(int argc, char* argv[])
+{
+    if (argc == 1)
+        return run(testCases());
+
+    TestCases filtered;
+    for (TestCase* tc : testCases())
+    {
+        for (int i = 1; i < argc; ++i)
+        {
+            if (tc->name == argv[i])
+            {
+                filtered.push_back(tc);
+                break;
+            }
+        }
+    }
+
+    return run(filtered);
 }

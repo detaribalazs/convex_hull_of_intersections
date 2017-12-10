@@ -47,8 +47,8 @@ TEST_CASE(intersect_line_circle_origo_based_vertical_full_crossing)
     Circle c{Point{0,0}, 3};
 
     CHECK_EQ(intersect(l,c).size(), 2);
-    CHECK_EQ(intersect(l,c)[0], (Point{0, -3}));
-    CHECK_EQ(intersect(l,c)[1], (Point{0, +3}));
+    CHECK_EQ(intersect(l,c)[0], (Point{0, +3}));
+    CHECK_EQ(intersect(l,c)[1], (Point{0, -3}));
 }
 
 // =================================================================================================
@@ -74,11 +74,11 @@ TEST_CASE(intersect_line_circle_origo_based_vertical_lower_half_crossing)
 // =================================================================================================
 TEST_CASE(intersect_line_circle_vertical_tangent_translated)
 {
-    LineSegment l{Point{5,-10}, Point{5,10}};
-    Circle c{Point{3,1}, 2};
+    LineSegment l{Point{6,-10}, Point{6,10}};
+    Circle c{Point{4,2}, 2};
 
     CHECK_EQ(intersect(l,c).size(), 1);
-    CHECK_EQ(intersect(l,c)[0], (Point{5,1}));
+    CHECK_EQ(intersect(l,c)[0], (Point{6,2}));
 }
 
 // =================================================================================================
@@ -88,8 +88,8 @@ TEST_CASE(intersect_line_circle_vertical_full_crossing_translated)
     Circle c{Point{3,1}, 3};
 
     CHECK_EQ(intersect(l,c).size(), 2);
-    CHECK_EQ(intersect(l,c)[0], (Point{3, -2}));
-    CHECK_EQ(intersect(l,c)[1], (Point{3, +4}));
+    CHECK_EQ(intersect(l,c)[0], (Point{3, +4}));
+    CHECK_EQ(intersect(l,c)[1], (Point{3, -2}));
 }
 
 // =================================================================================================
@@ -122,10 +122,11 @@ TEST_CASE(intersect_line_circle_origo_based_generic_crossing)
     LineSegment l{Point{0, sqrt2 * r - 1}, Point{sqrt2*r - 1, 0}};
     Circle c{Point{0,0}, r};
 
-    CHECK_EQ(l.slope(), -1.0);
-    CHECK_EQ(intersect(l,c).size(), 2);
-    CHECK_EQ(intersect(l,c)[0], (Point{4.84814, 1.22293}));
-    CHECK_EQ(intersect(l,c)[1], (Point{1.22293, 4.84814}));
+    CHECK_EQ(l.slope_y(), -1.0);
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK_EQ(std::max(isec[0], isec[1]), (Point{4.84814, 1.22293}));
+    CHECK_EQ(std::min(isec[0], isec[1]), (Point{1.22293, 4.84814}));
 }
 
 // =================================================================================================
@@ -146,10 +147,11 @@ TEST_CASE(intersect_line_circle_origo_based_generic_crossing_backward_line)
     LineSegment l{Point{sqrt2 * r - 1, 0}, Point{0, sqrt2*r - 1}};
     Circle c{Point{0,0}, r};
 
-    CHECK_EQ(l.slope(), -1.0);
-    CHECK_EQ(intersect(l,c).size(), 2);
-    CHECK_EQ(intersect(l,c)[0], (Point{4.84814, 1.22293}));
-    CHECK_EQ(intersect(l,c)[1], (Point{1.22293, 4.84814}));
+    CHECK_EQ(l.slope_y(), -1.0);
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK_EQ(std::max(isec[0], isec[1]), (Point{4.84814, 1.22293}));
+    CHECK_EQ(std::min(isec[0], isec[1]), (Point{1.22293, 4.84814}));
 }
 
 // =================================================================================================
@@ -159,7 +161,7 @@ TEST_CASE(intersect_line_circle_origo_based_upper_crossing_positive_slope)
     Circle c{Point{0,0}, 6};
     const float srr = sqrt(c.radius * c.radius / 2.0);
 
-    CHECK_EQ(l.slope(), 1.0);
+    CHECK_EQ(l.slope_y(), 1.0);
     CHECK_EQ(intersect(l,c).size(), 1);
     CHECK_EQ(intersect(l,c)[0], (Point{srr, srr}));
 }
@@ -171,7 +173,7 @@ TEST_CASE(intersect_line_circle_origo_based_lower_crossing_positive_slope)
     Circle c{Point{0,0}, 6};
     const float srr = sqrt(c.radius * c.radius / 2.0);
 
-    CHECK_EQ(l.slope(), 1.0);
+    CHECK_EQ(l.slope_y(), 1.0);
     CHECK_EQ(intersect(l,c).size(), 1);
     CHECK_EQ(intersect(l,c)[0], (Point{-srr, -srr}));
 }
@@ -183,7 +185,7 @@ TEST_CASE(intersect_line_circle_origo_based_full_crossing_positive_slope)
     Circle c{Point{0,0}, 6};
     const float srr = sqrt(c.radius * c.radius / 2.0);
 
-    CHECK_EQ(l.slope(), 1.0);
+    CHECK_EQ(l.slope_y(), 1.0);
     CHECK_EQ(intersect(l,c).size(), 2);
     CHECK_EQ(intersect(l,c)[0], (Point{srr, srr}));
     CHECK_EQ(intersect(l,c)[1], (Point{-srr, -srr}));
@@ -206,12 +208,12 @@ TEST_CASE(intersect_line_circle_origo_based_horizontal_full_crossing)
     Circle c{Point{0,0}, 3};
 
     CHECK_EQ(intersect(l,c).size(), 2);
-    CHECK_EQ(intersect(l,c)[0], (Point{+3, 0}));
-    CHECK_EQ(intersect(l,c)[1], (Point{-3, 0}));
+    CHECK_EQ(intersect(l,c)[0], (Point{-3, 0}));
+    CHECK_EQ(intersect(l,c)[1], (Point{+3, 0}));
 }
 
 // =================================================================================================
-IGNORE_TEST_CASE(intersect_line_circle_horizontal_full_crossing_translated)
+TEST_CASE(intersect_line_circle_horizontal_full_crossing_translated)
 {
     LineSegment l{Point{-10, 1}, Point{10, 1}};
     Circle c{Point{3,1}, 2};
@@ -222,11 +224,11 @@ IGNORE_TEST_CASE(intersect_line_circle_horizontal_full_crossing_translated)
 }
 
 // =================================================================================================
-IGNORE_TEST_CASE(intersect_line_circle_horizontal_tangent_translated)
+TEST_CASE(intersect_line_circle_horizontal_tangent_translated)
 {
     LineSegment l{Point{-10, 3}, Point{10, 3}};
     Circle c{Point{3,1}, 2};
 
     CHECK_EQ(intersect(l,c).size(), 1);
-    CHECK_EQ(intersect(l,c)[0], (Point{0, 3}));
+    CHECK_EQ(intersect(l,c)[0], (Point{3, 3}));
 }

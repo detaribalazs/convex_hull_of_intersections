@@ -10,7 +10,12 @@ namespace gk
 {
     class Intersections
     {
+        using array_type = std::array<Point, 2>;
+
         public:
+            using iterator = array_type::iterator;
+            using const_iterator = array_type::const_iterator;
+
             Intersections() = default;
 
             Intersections(const Point& p1)
@@ -21,34 +26,25 @@ namespace gk
                 : points{p1, p2}, count(2)
             {}
 
-            void add(const Point& p)
-            {
-                assert(count < points.size());
-                points[count++] = p;
-            }
+            void add(const Point& p);
 
-            bool empty() const
-            { return count == 0; }
+            void clear() { count = 0; }
 
-            unsigned size() const
-            { return count; }
+            iterator erase(const_iterator it);
 
-            const Point& operator[] (unsigned i) const
-            {
-                assert(i < points.size());
-                return points[i];
-            }
+            const Point& operator[] (unsigned i) const;
 
-            auto begin() const
-            { return points.begin(); }
+            bool empty() const { return count == 0; }
 
-            auto end() const
-            { return points.begin() + count; }
+            unsigned size() const { return count; }
+
+            auto begin() const { return points.begin(); }
+            auto begin()       { return points.begin(); }
+            auto end() const { return points.begin() + count; }
+            auto end()       { return points.begin() + count; }
 
             bool operator== (const Intersections& that) const;
-
-            bool operator!= (const Intersections& that) const
-            { return ! (*this == that); }
+            bool operator!= (const Intersections& that) const;
 
         private:
             std::array<Point, 2> points;
@@ -57,6 +53,9 @@ namespace gk
 
     std::ostream& operator<< (std::ostream& out, const Intersections& intersections);
 
+
+    Intersections intersect(const Line& l1, const Line& l2);
+    Intersections intersect(const Line& l, const Circle& circle);
 
     Intersections intersect(const LineSegment& l1, const LineSegment& l2);
     Intersections intersect(const LineSegment& l1, const Circle& c2);

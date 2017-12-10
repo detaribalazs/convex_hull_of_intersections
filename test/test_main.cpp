@@ -1,6 +1,6 @@
 #include "unit_test.h"
 
-int main()
+int main(int argc, char* argv[])
 {
-    return test::runTestCases();
+    return test::runTestCases(argc, argv);
 }

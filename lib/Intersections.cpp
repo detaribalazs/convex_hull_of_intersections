@@ -16,6 +16,26 @@ std::ostream& gk::operator<< (std::ostream& out, const Intersections& intersecti
 }
 
 // =================================================================================================
+Intersections::iterator Intersections::erase(const_iterator it)
+{
+    switch (size())
+    {
+        case 2:
+            if (it == begin())
+            {
+                std::iter_swap(begin(), begin() + 1);
+                --count;
+                return begin();
+            }
+            // [[fallthrough]]
+        case 1:
+            --count;
+    }
+
+    return end();
+}
+
+// =================================================================================================
 bool Intersections::operator== (const Intersections& that) const
 {
     if (count != that.count)
@@ -35,39 +55,49 @@ bool Intersections::operator== (const Intersections& that) const
 }
 
 // =================================================================================================
-static Intersections intersectVertical(const LineSegment& l1, const LineSegment& l2)
+bool Intersections::operator!= (const Intersections& that) const
 {
-    assert(l1[0].x == l1[1].x);
+    return ! (*this == that);
+}
 
-    if (!l2.valid_x(l1[0].x))
+// =================================================================================================
+const Point& Intersections::operator[] (unsigned i) const
+{
+    assert(i < points.size());
+    return points[i];
+}
+
+// =================================================================================================
+void Intersections::add(const Point& p)
+{
+    assert(count < points.size());
+    points[count++] = p;
+}
+
+// =================================================================================================
+Intersections gk::intersect(const Line& l1, const Line& l2)
+{
+    const auto den = l1.a * l2.b - l2.a *l1.b;
+
+    // the lines are parallel
+    if (std::abs(den) < 1e-6)
         return {};
-    auto y = l2.get_y(l1[0].x);
-    if (!l1.valid_y(y))
-        return {};
-    return Point{l1[0].x, y};
+
+    return Point{(l1.c * l2.b - l2.c * l1.b) / den, (l1.a * l2.c - l2.a * l1.c) / den};
 }
 
 // =================================================================================================
 Intersections gk::intersect(const LineSegment& l1, const LineSegment& l2)
 {
-    if (l1.slope() == l2.slope())
-        return {};
+    auto isec = intersect(l1.line(), l2.line());
 
-    if (l1.is_vertical())
+    if (!isec.empty())
     {
-        if (l2.is_vertical())
-            return {};
-        return intersectVertical(l1, l2);
+        if (!l1.valid(isec[0]) || !l2.valid(isec[0]))
+            isec.clear();
     }
 
-    if (l2.is_vertical())
-        return intersectVertical(l2, l1);
-
-    const auto ix = (l1[0].y - l2[0].y) / (l2.slope() - l1.slope());
-    if (!l1.valid_x(ix) || !l2.valid_x(ix))
-        return {};
-
-    return Point{ix, l1.get_y(ix)};
+    return isec;
 }
 
 // =================================================================================================
@@ -77,66 +107,69 @@ inline float square(float x)
 }
 
 // =================================================================================================
-static Intersections intersectVertical(const LineSegment& l, const Circle& c)
+Intersections gk::intersect(const Line& l, const Circle& circle)
 {
-    assert(l[0].x == l[1].x);
+    const auto lt = l - circle.center;
+    const auto d = square(circle.radius) * (square(lt.a) + square(lt.b)) - square(lt.c);
 
-    if (std::fabs(c.center.x - l[0].x) > c.radius)
+    if (d < 0)
         return {};
 
-    const auto ry = std::sqrt(square(c.radius) - square(c.center.x - l[0].x));
+    Intersections isec;
 
-    if (ry < 1e-4)
+    const auto a2pb2 = square(lt.a) + square(lt.b);
+
+    if (d < 1e-5)
     {
-        if (l.valid_y(c.center.y))
-            return Point{l[0].x, c.center.y};
-        return {};
+        Point p{lt.a * lt.c / a2pb2, lt.b * lt.c / a2pb2};
+        p += circle.center;
+        isec.add(p);
+    }
+    else
+    {
+        Point p1{
+            float((lt.a * lt.c - lt.b * sqrt(d)) / a2pb2),
+            float((lt.b * lt.c + lt.a * sqrt(d)) / a2pb2)};
+        Point p2{
+            float((lt.a * lt.c + lt.b * sqrt(d)) / a2pb2),
+            float((lt.b * lt.c - lt.a * sqrt(d)) / a2pb2)};
+
+        p1 += circle.center;
+        p2 += circle.center;
+
+        isec.add(p1);
+        isec.add(p2);
     }
 
-    Intersections isec;
+    return isec;
+}
 
-    if (l.valid_y(c.center.y - ry))
-        isec.add(Point{l[0].x, c.center.y - ry});
-    if (l.valid_y(c.center.y + ry))
-        isec.add(Point{l[0].x, c.center.y + ry});
+// =================================================================================================
+Intersections gk::intersect(const LineSegment& ls, const Circle& circle)
+{
+    auto isec = intersect(ls.line(), circle);
+    auto p = isec.begin();
+
+    while (p != isec.end())
+    {
+        if (ls.valid(*p))
+            ++p;
+        else
+            p = isec.erase(p);
+    }
 
     return isec;
 }
 
 // =================================================================================================
-Intersections gk::intersect(const LineSegment& l, const Circle& circle)
+Intersections gk::intersect(const Circle& c1, const Circle& c2)
 {
-    // both end-points inside the circle
-    if (circle.is_inside(l[0]) && circle.is_inside(l[1]))
-        return {};
-
-    if (l.is_vertical())
-        return intersectVertical(l, circle);
-
-    const auto m = l.slope();
-    const auto y1 = l.get_y(0.0);
-    const auto a = square(m) + 1;
-    const auto b = 2 * y1 * m;
-    const auto c = square(y1) - square(circle.radius);
-    const auto srbsmfac = sqrt(square(b) - 4 * a * c);
-    const float x1 = (-b + srbsmfac) / (2 * a);
-    const float x2 = (-b - srbsmfac) / (2 * a);
-
-    Intersections isec;
-
-    if (l.valid_x(x1))
-        isec.add(Point{x1, l.get_y(x1)});
-
-    if (l.valid_x(x2) && std::fabs(x2 - x1) > 1e-4)
-        isec.add(Point{x2, l.get_y(x2)});
-
-    return isec;
-}
-
-// =================================================================================================
-Intersections gk::intersect(const Circle&, const Circle&)
-{
-    return {};
+    Line l{
+        2 * (c2.center.x - c1.center.x),
+        2 * (c2.center.y - c1.center.y),
+        + square(c1.radius) - square(c1.center.x) - square(c1.center.y)
+        - square(c2.radius) + square(c2.center.x) + square(c2.center.y)};
+    return intersect(l, c1);
 }
 
 // =================================================================================================

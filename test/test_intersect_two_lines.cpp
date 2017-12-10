@@ -14,13 +14,16 @@ TEST_CASE(intersect_line_line_at_edge_1)
 }
 
 // =================================================================================================
-IGNORE_TEST_CASE(intersect_line_line_at_edge_2)
+TEST_CASE(intersect_line_line_at_edge_2)
 {
     LineSegment l1{Point{1,1}, Point{2,3}};
     LineSegment l2{Point{0, 2}, Point{2,0}};
+    LineSegment l3{Point{0, 2}, Point{1,1}};
 
     CHECK_EQ(intersect(l1, l2), Intersections(Point{1,1}));
+    CHECK_EQ(intersect(l1, l3), Intersections(Point{1,1}));
     CHECK_EQ(intersect(l2, l1), Intersections(Point{1,1}));
+    CHECK_EQ(intersect(l3, l1), Intersections(Point{1,1}));
 }
 
 // =================================================================================================

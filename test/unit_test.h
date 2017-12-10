@@ -14,7 +14,7 @@ namespace test
     constexpr auto neg_inf = -pos_inf;
     constexpr auto nan = std::numeric_limits<float>::quiet_NaN();
 
-    int runTestCases();
+    int runTestCases(int argc, char* argv[]);
 
     struct TestCase
     {
