@@ -300,3 +300,34 @@ TEST_CASE(intersect_line_circle_horizontal_tangent_translated)
     CHECK(c.valid(isec[0]));
     CHECK_EQ(isec[0], (Point{3, 3}));
 }
+
+// =================================================================================================
+TEST_CASE(intersect_infinite_line_and_circle_1)
+{
+    Line l{Point{-10, 3}, Point{10, 3}};
+    Circle c{Point{3,1}, 2};
+
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 1);
+    CHECK(l.valid(isec[0]));
+    CHECK(c.valid(isec[0]));
+    CHECK_EQ(isec[0], (Point{3, 3}));
+}
+
+// =================================================================================================
+IGNORE_TEST_CASE(intersect_infinite_line_and_circle_2)
+{
+    Line l{Point{-1, 7}, Point{13, -5}};
+    Circle c{Point{3,1}, 4};
+
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK(c.valid(isec[0]));
+    CHECK(c.valid(isec[1]));
+    CHECK_EQ(l.a * isec[0].x + l.b * isec[0].y, l.c);
+    CHECK_EQ(l.a * isec[1].x + l.b * isec[1].y, l.c);
+    CHECK(l.valid(isec[0]));
+    CHECK(l.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{3, 3}));
+    CHECK_EQ(isec[1], (Point{3, 3}));
+}

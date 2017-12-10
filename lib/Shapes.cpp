@@ -58,16 +58,42 @@ float gk::distance(const Point& p1, const Point& p2)
 
 // =================================================================================================
 Line Line::operator+ (const Point& p) const
-{ return Line{a, b, c + (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)}; }
+{
+    return Line{a, b, c + (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)};
+}
 
 // =================================================================================================
 Line Line::operator- (const Point& p) const
-{ return Line{a, b, c - (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)}; }
+{
+    return Line{a, b, c - (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)};
+}
 
 // =================================================================================================
 bool Line::valid(const Point& p) const
 {
     return std::fabs(a*p.x+b*p.y - c) < 1e-5;
+}
+
+// =================================================================================================
+Line::Line(const Point& p1, const Point& p2)
+{
+    const auto delta_x = p2.x - p1.x;
+    const auto delta_y = p2.y - p1.y;
+
+    if (delta_x > delta_y)
+    {
+        const auto y0 = p1.y - delta_y / delta_x * p1.x;
+        a = - delta_y;
+        b = delta_x;
+        c = delta_x * y0;
+    }
+    else
+    {
+        const auto x0 = p1.x - delta_x / delta_y * p1.y;
+        a = delta_y;
+        b = - delta_x;
+        c = delta_y * x0;
+    }
 }
 
 // =================================================================================================
@@ -85,20 +111,8 @@ LineSegment LineSegment::operator- (const Point& p) const
 // =================================================================================================
 LineSegment::LineSegment(const Point& p1, const Point& p2)
     : endPoints{std::min(p1, p2), std::max(p1, p2)}
-{
-    if (delta_x() > delta_y())
-    {
-        _line.a = - delta_y();
-        _line.b = delta_x();
-        _line.c = delta_x() * get_y(0.0);
-    }
-    else
-    {
-        _line.a = delta_y();
-        _line.b = - delta_x();
-        _line.c = delta_y() * get_x(0.0);
-    }
-}
+    , _line(endPoints[0], endPoints[1])
+{}
 
 // =================================================================================================
 float LineSegment::get_x(float y) const

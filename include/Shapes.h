@@ -29,6 +29,16 @@ namespace gk
         // coefficients of the line equation: ax + by = c
         float a, b, c;
 
+        Line() {}
+
+        // construct from coefficients
+        Line(float a, float b, float c)
+            : a(a), b(b), c(c)
+        {}
+
+        // construct from two points on the line
+        Line(const Point& p1, const Point& p2);
+
         // translate by a vector
         Line operator+ (const Point& p) const;
         Line operator- (const Point& p) const;
