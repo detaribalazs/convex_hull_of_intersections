@@ -15,10 +15,9 @@ namespace gk
                 std::get<std::vector<TShape>>(shapes).push_back(std::forward<TShape>(shape));
             }
 
-            size_t size() const
-            {
-                return std::get<0>(shapes).size() + std::get<1>(shapes).size();
-            }
+            size_t size() const;
+
+            std::vector<Point> intersectAll() const;
 
         private:
             std::tuple<std::vector<LineSegment>, std::vector<Circle>> shapes;

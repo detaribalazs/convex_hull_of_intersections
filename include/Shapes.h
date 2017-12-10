@@ -55,6 +55,8 @@ namespace gk
             LineSegment operator+ (const Point& p) const;
             LineSegment operator- (const Point& p) const;
 
+            bool operator == (const LineSegment& l) const { return endPoints == l.endPoints; }
+
             // access end-points
             const Point& operator[](unsigned i) const { return endPoints[i]; }
 
@@ -89,6 +91,9 @@ namespace gk
     {
         Point center;
         float radius;
+
+        bool operator == (const Circle& c) const
+        { return center == c.center && radius == c.radius; }
 
         // is point inside the circle
         bool is_inside(const Point& p) const;

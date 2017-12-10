@@ -11,15 +11,23 @@ int main()
     unsigned numShapes;
     std::cin >> numShapes;
 
-    gk::ShapeStorage store;
+    gk::ShapeStorage shapes;
     std::copy(
             std::istream_iterator<gk::InputLine>(std::cin),
             std::istream_iterator<gk::InputLine>(),
-            gk::InsertShapeIterator(store));
+            gk::InsertShapeIterator(shapes));
 
-    std::cerr << "Loaded " << store.size() << " shapes\n";
+    std::cerr << "Loaded " << shapes.size() << " shapes\n";
+    assert(shapes.size() == numShapes);
 
-    assert(store.size() == numShapes);
+    auto intersections = shapes.intersectAll();
+    std::cerr << "Found " << intersections.size() << " intersections\n";
+
+    std::cout << intersections.size() << '\n';
+    std::copy(
+            intersections.begin(),
+            intersections.end(),
+            std::ostream_iterator<gk::Point>(std::cout, "\n"));
 
     return 0;
 }
