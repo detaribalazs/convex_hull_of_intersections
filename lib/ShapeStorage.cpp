@@ -1,6 +1,7 @@
 #include <ShapeStorage.h>
 #include <Intersections.h>
 
+#include <algorithm>
 #include <iterator>
 
 using namespace gk;
@@ -45,6 +46,10 @@ std::vector<Point> ShapeStorage::intersectAll() const
             std::copy(isec.begin(), isec.end(), std::back_inserter(intersections));
         }
     }
+
+    std::sort(intersections.begin(), intersections.end());
+    auto end = std::unique(intersections.begin(), intersections.end());
+    intersections.resize(std::distance(intersections.begin(), end));
 
     return intersections;
 }
