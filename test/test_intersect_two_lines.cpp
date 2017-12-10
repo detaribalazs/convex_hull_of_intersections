@@ -9,6 +9,8 @@ TEST_CASE(intersect_line_line_at_edge_1)
     LineSegment l1{Point{0,-1}, Point{2,3}};
     LineSegment l2{Point{0, 2}, Point{1,1}};
 
+    CHECK(l1.line().valid(Point{1,1}));
+    CHECK(l2.line().valid(Point{1,1}));
     CHECK_EQ(intersect(l1, l2), Intersections(Point{1,1}));
     CHECK_EQ(intersect(l2, l1), Intersections(Point{1,1}));
 }
@@ -20,6 +22,9 @@ TEST_CASE(intersect_line_line_at_edge_2)
     LineSegment l2{Point{0, 2}, Point{2,0}};
     LineSegment l3{Point{0, 2}, Point{1,1}};
 
+    CHECK(l1.line().valid(Point{1,1}));
+    CHECK(l2.line().valid(Point{1,1}));
+    CHECK(l3.line().valid(Point{1,1}));
     CHECK_EQ(intersect(l1, l2), Intersections(Point{1,1}));
     CHECK_EQ(intersect(l1, l3), Intersections(Point{1,1}));
     CHECK_EQ(intersect(l2, l1), Intersections(Point{1,1}));
@@ -32,6 +37,8 @@ TEST_CASE(intersect_line_line_in_the_middle_negative_positive_slope)
     LineSegment l1{Point{0,-1}, Point{2,3}};
     LineSegment l2{Point{0, 2}, Point{2,0}};
 
+    CHECK(l1.line().valid(Point{1,1}));
+    CHECK(l2.line().valid(Point{1,1}));
     CHECK_EQ(intersect(l1, l2), Intersections(Point{1,1}));
 }
 
@@ -42,6 +49,9 @@ TEST_CASE(intersect_line_line_in_the_middle_both_slopes_positive)
     LineSegment l2{Point{0, 2}, Point{10, 8}};
     LineSegment l3{Point{0, 1}, Point{10, 9}};
 
+    CHECK(l1.line().valid(Point{5,5}));
+    CHECK(l2.line().valid(Point{5,5}));
+    CHECK(l3.line().valid(Point{5,5}));
     CHECK_EQ(intersect(l1, l2)[0], (Point{5,5}));
     CHECK_EQ(intersect(l1, l3)[0], (Point{5,5}));
     CHECK_EQ(intersect(l2, l1)[0], (Point{5,5}));
@@ -56,6 +66,10 @@ TEST_CASE(intersect_line_line_in_the_middle_one_is_horizontal)
     LineSegment l2{Point{0, 2}, Point{10, 8}};
     LineSegment l3{Point{0, 1}, Point{10, 9}};
 
+    CHECK(l1a.line().valid(Point{5,5}));
+    CHECK(l1b.line().valid(Point{5,5}));
+    CHECK(l2.line().valid(Point{5,5}));
+    CHECK(l3.line().valid(Point{5,5}));
     CHECK_EQ(intersect(l1a, l2)[0], (Point{5,5}));
     CHECK_EQ(intersect(l1a, l3)[0], (Point{5,5}));
     CHECK_EQ(intersect(l2, l1a)[0], (Point{5,5}));
@@ -74,6 +88,10 @@ TEST_CASE(intersect_line_line_in_the_middle_one_is_vertical)
     LineSegment l2{Point{0, 2}, Point{10, 8}};
     LineSegment l3{Point{0, 1}, Point{10, 9}};
 
+    CHECK(l1a.line().valid(Point{5,5}));
+    CHECK(l1b.line().valid(Point{5,5}));
+    CHECK(l2.line().valid(Point{5,5}));
+    CHECK(l3.line().valid(Point{5,5}));
     CHECK_EQ(intersect(l1a, l2)[0], (Point{5,5}));
     CHECK_EQ(intersect(l1a, l3)[0], (Point{5,5}));
     CHECK_EQ(intersect(l2, l1a)[0], (Point{5,5}));
