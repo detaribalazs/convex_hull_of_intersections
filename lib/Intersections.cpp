@@ -164,12 +164,12 @@ Intersections gk::intersect(const LineSegment& ls, const Circle& circle)
 // =================================================================================================
 Intersections gk::intersect(const Circle& c1, const Circle& c2)
 {
-    Line l{
+    Line line{
         2 * (c2.center.x - c1.center.x),
         2 * (c2.center.y - c1.center.y),
         + square(c1.radius) - square(c1.center.x) - square(c1.center.y)
         - square(c2.radius) + square(c2.center.x) + square(c2.center.y)};
-    return intersect(l, c1);
+    return intersect(line, c1);
 }
 
 // =================================================================================================

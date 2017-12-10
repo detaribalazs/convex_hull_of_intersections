@@ -131,3 +131,15 @@ bool LineSegment::valid(const Point& p) const
 {
     return valid_x(p.x) && valid_y(p.y);
 }
+
+// =================================================================================================
+bool Circle::is_inside(const Point& p) const
+{
+    return distance(center, p) < radius;
+}
+
+// =================================================================================================
+bool Circle::valid(const Point& p) const
+{
+    return std::fabs(distance(center, p) - radius) < 1e-4;
+}

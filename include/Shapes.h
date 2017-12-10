@@ -80,9 +80,10 @@ namespace gk
         Point center;
         float radius;
 
-        bool is_inside(const Point& p) const
-        {
-            return distance(center, p) < radius;
-        }
+        // is point inside the circle
+        bool is_inside(const Point& p) const;
+
+        // is point on the circle
+        bool valid(const Point& p) const;
     };
 }
