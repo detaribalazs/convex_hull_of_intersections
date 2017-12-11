@@ -20,11 +20,11 @@ namespace gk
     // an output iterator to insert shapes into the storage
     class InsertShapeIterator
         : public std::iterator<
-                        std::output_iterator_tag,
-                        InputLine, // value_type
-                        std::ptrdiff_t, // difference_type
-                        InsertShapeIterator*, // pointer
-                        InsertShapeIterator& > // reference
+            std::output_iterator_tag,
+            InputLine, // value_type
+            std::ptrdiff_t, // difference_type
+            InsertShapeIterator*, // pointer
+            InsertShapeIterator& > // reference
     {
         public:
             InsertShapeIterator(ShapeStorage& storage)

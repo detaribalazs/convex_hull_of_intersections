@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-echo "System test of ConvexHullOfIntersections"
+echo "System test of ConvexHullOfIntersections" >&2
 
 [ $# -lt 2 ] && echo "Usage: $0 <SRC_DIR> <BIN_DIR>" && exit 1
 

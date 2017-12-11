@@ -1,5 +1,6 @@
 #include <InputParser.h>
 #include <ShapeStorage.h>
+#include <OutputWriter.h>
 
 #include <algorithm>
 #include <cassert>
@@ -27,7 +28,7 @@ int main()
     std::copy(
             intersections.begin(),
             intersections.end(),
-            std::ostream_iterator<gk::Point>(std::cout, "\n"));
+            gk::OutputPointsIterator(std::cout));
 
     return 0;
 }
