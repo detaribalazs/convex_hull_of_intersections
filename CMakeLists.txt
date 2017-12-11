@@ -30,4 +30,4 @@ target_link_libraries(unit_test ${lib_name})
 
 include(CTest)
 add_test(unit_test ${PROJECT_BINARY_DIR}/unit_test)
-add_test(system_test ${CMAKE_SOURCE_DIR}/test/system_test.sh ${CMAKE_SOURCE_DIR} ${PROJECT_BINARY_DIR})
+add_test(system_test ${CMAKE_SOURCE_DIR}/script/system_test.sh ${CMAKE_SOURCE_DIR} ${PROJECT_BINARY_DIR})
