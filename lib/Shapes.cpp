@@ -11,7 +11,7 @@ bool Point::operator< (const Point& p) const
 }
 
 // =================================================================================================
-Point& Point::operator+= (const Point& p)
+Point& Point::operator+= (const Vector& p)
 {
     x += p.x;
     y += p.y;
@@ -19,13 +19,13 @@ Point& Point::operator+= (const Point& p)
 }
 
 // =================================================================================================
-Point Point::operator+ (const Point& p) const
+Point Point::operator+ (const Vector& p) const
 {
     return Point{x + p.x, y + p.y};
 }
 
 // =================================================================================================
-Point& Point::operator-= (const Point& p)
+Point& Point::operator-= (const Vector& p)
 {
     x -= p.x;
     y -= p.y;
@@ -33,7 +33,7 @@ Point& Point::operator-= (const Point& p)
 }
 
 // =================================================================================================
-Point Point::operator- (const Point& p) const
+Point Point::operator- (const Vector& p) const
 {
     return Point{x - p.x, y - p.y};
 }
@@ -57,13 +57,13 @@ float gk::distance(const Point& p1, const Point& p2)
 }
 
 // =================================================================================================
-Line Line::operator+ (const Point& p) const
+Line Line::operator+ (const Vector& p) const
 {
     return Line{a, b, c + (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)};
 }
 
 // =================================================================================================
-Line Line::operator- (const Point& p) const
+Line Line::operator- (const Vector& p) const
 {
     return Line{a, b, c - (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)};
 }
@@ -97,13 +97,13 @@ Line::Line(const Point& p1, const Point& p2)
 }
 
 // =================================================================================================
-LineSegment LineSegment::operator+ (const Point& p) const
+LineSegment LineSegment::operator+ (const Vector& p) const
 {
     return LineSegment(endPoints[0] + p, endPoints[1] + p);
 }
 
 // =================================================================================================
-LineSegment LineSegment::operator- (const Point& p) const
+LineSegment LineSegment::operator- (const Vector& p) const
 {
     return LineSegment(endPoints[0] - p, endPoints[1] - p);
 }

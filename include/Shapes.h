@@ -4,6 +4,9 @@
 
 namespace gk
 {
+    struct Point;
+    using Vector = Point;
+
     struct Point
     {
         float x, y;
@@ -14,10 +17,10 @@ namespace gk
         bool operator< (const Point& p) const;
 
         // translations by a vector
-        Point& operator+= (const Point& p);
-        Point& operator-= (const Point& p);
-        Point operator+ (const Point& p) const;
-        Point operator- (const Point& p) const;
+        Point& operator+= (const Vector& p);
+        Point& operator-= (const Vector& p);
+        Point operator+ (const Vector& p) const;
+        Point operator- (const Vector& p) const;
     };
 
     float distance(const Point& p1, const Point& p2);
@@ -40,8 +43,8 @@ namespace gk
         Line(const Point& p1, const Point& p2);
 
         // translate by a vector
-        Line operator+ (const Point& p) const;
-        Line operator- (const Point& p) const;
+        Line operator+ (const Vector& p) const;
+        Line operator- (const Vector& p) const;
 
         bool valid(const Point& p) const;
     };
@@ -52,8 +55,8 @@ namespace gk
             LineSegment(const Point& p1, const Point& p2);
 
             // translations
-            LineSegment operator+ (const Point& p) const;
-            LineSegment operator- (const Point& p) const;
+            LineSegment operator+ (const Vector& p) const;
+            LineSegment operator- (const Vector& p) const;
 
             bool operator == (const LineSegment& l) const { return endPoints == l.endPoints; }
 

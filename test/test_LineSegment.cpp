@@ -134,8 +134,8 @@ TEST_CASE(LineSegment_line_equation)
         CHECK_EQ(l.line().c,35);
         CHECK(l.line().valid(l[0]));
         CHECK(l.line().valid(l[1]));
-        CHECK(l.line().valid(l[0] + Point{11,0}));
-        CHECK(l.line().valid(l[0] - Point{11,0}));
+        CHECK(l.line().valid(l[0] + Vector{11,0}));
+        CHECK(l.line().valid(l[0] - Vector{11,0}));
     }
 
     {
@@ -151,8 +151,8 @@ TEST_CASE(LineSegment_line_equation)
         CHECK_EQ(l.line().c,35);
         CHECK(l.line().valid(l[0]));
         CHECK(l.line().valid(l[1]));
-        CHECK(l.line().valid(l[0] + Point{0,11}));
-        CHECK(l.line().valid(l[0] - Point{0,11}));
+        CHECK(l.line().valid(l[0] + Vector{0,11}));
+        CHECK(l.line().valid(l[1] - Vector{0,11}));
     }
 
     LineSegment l1{Point{0,0}, Point{2,3}};
@@ -168,7 +168,7 @@ TEST_CASE(LineSegment_line_equation)
     }
 
     {
-        auto l = l1 + Point{0,1};
+        auto l = l1 + Vector{0,1};
 
         CHECK_EQ(l.delta_y(), 3);
         CHECK_EQ(l.delta_x(), 2);
@@ -181,7 +181,7 @@ TEST_CASE(LineSegment_line_equation)
     }
 
     {
-        auto l = l1 + Point{1,0};
+        auto l = l1 + Vector{1,0};
 
         CHECK_EQ(l.delta_y(), 3);
         CHECK_EQ(l.delta_x(), 2);
@@ -194,7 +194,7 @@ TEST_CASE(LineSegment_line_equation)
     }
 
     {
-        auto l = l1 + Point{-3,0};
+        auto l = l1 + Vector{-3,0};
 
         CHECK_EQ(l.delta_y(), 3);
         CHECK_EQ(l.delta_x(), 2);
@@ -220,7 +220,7 @@ TEST_CASE(LineSegment_line_equation)
     }
 
     {
-        auto l = l1 + Point{-3,1};
+        auto l = l1 + Vector{-3,1};
 
         CHECK_EQ(l.slope_y(), 3.0 / 2.0);
         CHECK(l.line().valid(l[0]));
