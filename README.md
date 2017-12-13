@@ -36,3 +36,4 @@ make
 
 == Known issues (`git grep IGNORE_TEST_CASE`)
   - Intersecting a circle with a line does not always give the expected results.
+  - Arithmetic precision of the polygon area is not perfect.

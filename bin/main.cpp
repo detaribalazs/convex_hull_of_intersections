@@ -1,7 +1,8 @@
 #include <ConvexHull.h>
 #include <InputParser.h>
-#include <ShapeStorage.h>
 #include <OutputWriter.h>
+#include <PolygonArea.h>
+#include <ShapeStorage.h>
 
 #include <algorithm>
 #include <cassert>
@@ -37,6 +38,10 @@ int main()
 
     std::cout << hull.size() << '\n';
     std::copy(hull.begin(), hull.end(), gk::OutputPointsIterator(std::cout));
+
+    auto area = gk::area(std::move(hull));
+    std::cerr << "Area of the convex hull: " << area << '\n';
+    std::cout << area << '\n';
 
     return 0;
 }
