@@ -39,6 +39,12 @@ namespace gk
             : a(a), b(b), c(c)
         {}
 
+        float slope_x() const
+        { return -b / a; }
+
+        float slope_y() const
+        { return -a / b; }
+
         // construct from two points on the line
         Line(const Point& p1, const Point& p2);
 

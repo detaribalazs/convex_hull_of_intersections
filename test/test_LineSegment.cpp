@@ -29,30 +29,40 @@ TEST_CASE(LineSegment_slope)
         LineSegment l{Point{0,-1}, Point{2,3}};
         CHECK_EQ(l.slope_y(), 2.0);
         CHECK_EQ(l.slope_x(), .5);
+        CHECK_EQ(l.slope_y(), l.line().slope_y());
+        CHECK_EQ(l.slope_x(), l.line().slope_x());
     }
 
     {
         LineSegment l{Point{-3,1}, Point{2,0}};
         CHECK_EQ(l.slope_y(), -0.2);
         CHECK_EQ(l.slope_x(), -5);
+        CHECK_EQ(l.slope_y(), l.line().slope_y());
+        CHECK_EQ(l.slope_x(), l.line().slope_x());
     }
 
     {
         LineSegment l{Point{0,5}, Point{2,5}};
         CHECK_EQ(l.slope_y(), 0.0);
         CHECK_EQ(l.slope_x(), test::pos_inf);
+        CHECK_EQ(l.slope_y(), l.line().slope_y());
+        CHECK_EQ(l.slope_x(), l.line().slope_x());
     }
 
     {
         LineSegment l{Point{5,0}, Point{5,9}};
         CHECK_EQ(l.slope_y(), test::pos_inf);
         CHECK_EQ(l.slope_x(), 0.0);
+        CHECK_EQ(l.slope_y(), l.line().slope_y());
+        CHECK_EQ(l.slope_x(), l.line().slope_x());
     }
 
     {
         LineSegment l{Point{5,9}, Point{5,-1}};
         CHECK_EQ(l.slope_y(), test::pos_inf);
         CHECK_EQ(l.slope_x(), 0.0);
+        CHECK_EQ(l.slope_y(), l.line().slope_y());
+        CHECK_EQ(l.slope_x(), l.line().slope_x());
     }
 }
 
