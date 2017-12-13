@@ -34,10 +34,16 @@ if __name__ == "__main__":
     for x1,y1,x2,y2 in lines:
         fig.add_line(plt.Line2D((x1, x2), (y1, y2), c='g', lw=1))
 
-    pcolors  = ("ro", "rs", "ks", "kD")
+    pcolors  = ("ro", "ks", "rs", "kD")
     s = 0
-    for pts in points:
+    for pts in points[::2]:
         fig.plot(map(itemgetter(0), pts), map(itemgetter(1), pts), pcolors[s])
+        s = (s + 1) % len(pcolors)
+
+    pcolors = "mycg"
+    s = 0
+    for pts in points[1::2]:
+        fig.add_patch(plt.Polygon(pts, alpha=0.5, ec='r', color=pcolors[s]))
         s = (s + 1) % len(pcolors)
 
     plt.grid(True)

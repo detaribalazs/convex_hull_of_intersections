@@ -1,3 +1,4 @@
+#include <ConvexHull.h>
 #include <InputParser.h>
 #include <ShapeStorage.h>
 #include <OutputWriter.h>
@@ -30,6 +31,12 @@ int main()
             intersections.begin(),
             intersections.end(),
             gk::OutputPointsIterator(std::cout));
+
+    auto hull = gk::convexHull(std::move(intersections));
+    std::cerr << "Found " << hull.size() << " convex hull points\n";
+
+    std::cout << hull.size() << '\n';
+    std::copy(hull.begin(), hull.end(), gk::OutputPointsIterator(std::cout));
 
     return 0;
 }
