@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 
@@ -40,8 +41,8 @@ int main()
     std::copy(hull.begin(), hull.end(), gk::OutputPointsIterator(std::cout));
 
     auto area = gk::area(std::move(hull));
-    std::cerr << "Area of the convex hull: " << area << '\n';
-    std::cout << area << '\n';
+    std::cerr << "Area of the convex hull: " << std::fixed << std::setprecision(4) << area << '\n';
+    std::cout << std::fixed << std::setprecision(4) << area << '\n';
 
     return 0;
 }
