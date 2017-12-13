@@ -23,8 +23,11 @@ make
   - Comparing the expected results on the sample input:
     Run `script/compare.sh` to plot the inputs, expected outputs (in red) and the actual outputs (in black).
   - Executing the unit tests:
-    Run `make test` to show only a Passed/Failed status.
     Run `build/unit_test` to get a detailed log of executed test cases and assertions.
+  - Executing the performance tests:
+    Run `build/performance_test` to get a detailed log of executed test cases and timing.
+  - Executing all tests:
+    Run `make test` to show only a Passed/Failed status.
 
 == Project directories
   - `doc/`: Problem description and sample inputs.
