@@ -302,7 +302,103 @@ TEST_CASE(intersect_line_circle_horizontal_tangent_translated)
 }
 
 // =================================================================================================
-TEST_CASE(intersect_infinite_line_and_circle_1)
+TEST_CASE(intersect_infinite_horizontal_line_and_circle_origo_based)
+{
+    Line l{Point{-10, 0}, Point{10, 0}};
+    Circle c{Point{0,0}, 3};
+
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK(l.valid(isec[0]));
+    CHECK(l.valid(isec[1]));
+    CHECK(c.valid(isec[0]));
+    CHECK(c.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{-3, 0}));
+    CHECK_EQ(isec[1], (Point{+3, 0}));
+}
+
+// =================================================================================================
+TEST_CASE(intersect_infinite_horizontal_line_and_circle_shift_y)
+{
+    Line l{Point{-10, 3}, Point{10, 3}};
+    Circle c{Point{0, 3}, 3};
+
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK(l.valid(isec[0]));
+    CHECK(l.valid(isec[1]));
+    CHECK(c.valid(isec[0]));
+    CHECK(c.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{-3, 3}));
+    CHECK_EQ(isec[1], (Point{+3, 3}));
+}
+
+// =================================================================================================
+TEST_CASE(intersect_infinite_horizontal_line_and_circle_shift_x)
+{
+    Line l{Point{-13, 0}, Point{13, 0}};
+    Circle c{Point{3,0}, 3};
+
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK(l.valid(isec[0]));
+    CHECK(l.valid(isec[1]));
+    CHECK(c.valid(isec[0]));
+    CHECK(c.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{0, 0}));
+    CHECK_EQ(isec[1], (Point{6, 0}));
+}
+
+// =================================================================================================
+TEST_CASE(intersect_infinite_horizontal_line_and_circle_shift_xy)
+{
+    Line l{Point{-13, 3}, Point{13, 3}};
+    Circle c{Point{3,3}, 3};
+
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK(l.valid(isec[0]));
+    CHECK(l.valid(isec[1]));
+    CHECK(c.valid(isec[0]));
+    CHECK(c.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{0, 3}));
+    CHECK_EQ(isec[1], (Point{6, 3}));
+}
+
+// =================================================================================================
+TEST_CASE(intersect_infinite_horizontal_line_and_circle_shift_xy_and_circle)
+{
+    Line l{Point{-13, 3}, Point{13, 3}};
+    Circle c{Point{3,1}, 3};
+
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK(l.valid(isec[0]));
+    CHECK(l.valid(isec[1]));
+    CHECK(c.valid(isec[0]));
+    CHECK(c.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{0.763932, 3}));
+    CHECK_EQ(isec[1], (Point{5.23607, 3}));
+}
+
+// =================================================================================================
+TEST_CASE(intersect_infinite_vertical_line_and_circle_shift_xy)
+{
+    Line l{Point{3, -3}, Point{3, 3}};
+    Circle c{Point{3,3}, 3};
+
+    auto isec = intersect(l,c);
+    CHECK_EQ(isec.size(), 2);
+    CHECK(l.valid(isec[0]));
+    CHECK(l.valid(isec[1]));
+    CHECK(c.valid(isec[0]));
+    CHECK(c.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{3, 6}));
+    CHECK_EQ(isec[1], (Point{3, 0}));
+}
+
+// =================================================================================================
+TEST_CASE(intersect_infinite_horizontal_line_and_circle_tangent)
 {
     Line l{Point{-10, 3}, Point{10, 3}};
     Circle c{Point{3,1}, 2};
@@ -315,7 +411,7 @@ TEST_CASE(intersect_infinite_line_and_circle_1)
 }
 
 // =================================================================================================
-IGNORE_TEST_CASE(intersect_infinite_line_and_circle_2)
+TEST_CASE(intersect_infinite_line_and_circle_crossing)
 {
     Line l{Point{-1, 7}, Point{13, -5}};
     Circle c{Point{3,1}, 4};
@@ -328,6 +424,6 @@ IGNORE_TEST_CASE(intersect_infinite_line_and_circle_2)
     CHECK_EQ(l.a * isec[1].x + l.b * isec[1].y, l.c);
     CHECK(l.valid(isec[0]));
     CHECK(l.valid(isec[1]));
-    CHECK_EQ(isec[0], (Point{3, 3}));
-    CHECK_EQ(isec[1], (Point{3, 3}));
+    CHECK_EQ(isec[0], (Point{1.6199, 4.75437}));
+    CHECK_EQ(isec[1], (Point{6.92128, 0.210333}));
 }

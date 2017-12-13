@@ -273,3 +273,27 @@ TEST_CASE(LineSegment_line_equation)
         CHECK_EQ(l.line().c, 3);
     }
 }
+
+// =================================================================================================
+TEST_CASE(Line_translate)
+{
+    LineSegment ls({1,5}, {5,1});
+    Vector t{-3, 4};
+
+    auto ls2 = ls + t;
+    auto l2 = ls.line() + t;
+
+    CHECK_EQ(ls.get_y(9), ls.line().get_y(9));
+    CHECK_EQ(ls.get_y(-3), ls.line().get_y(-3));
+    CHECK_EQ(ls2.get_y(9), ls2.line().get_y(9));
+    CHECK_EQ(ls2.get_y(-3), ls2.line().get_y(-3));
+
+    CHECK_EQ(ls2.line().a, l2.a);
+    CHECK_EQ(ls2.line().b, l2.b);
+    CHECK_EQ(ls2.line().c, l2.c);
+
+    CHECK_EQ(ls2.get_y(9), l2.get_y(9));
+    CHECK_EQ(ls2.get_y(-3), l2.get_y(-3));
+
+    CHECK(ls2.line() == l2);
+}

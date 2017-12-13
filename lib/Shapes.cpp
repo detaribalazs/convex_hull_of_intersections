@@ -59,13 +59,19 @@ float gk::distance(const Point& p1, const Point& p2)
 // =================================================================================================
 Line Line::operator+ (const Vector& p) const
 {
-    return Line{a, b, c + (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)};
+    return Line{a, b, c + a*p.x + b*p.y};
 }
 
 // =================================================================================================
 Line Line::operator- (const Vector& p) const
 {
-    return Line{a, b, c - (std::fabs(b) < 1e-5 ? a*p.x : b*p.y)};
+    return Line{a, b, c - a*p.x - b*p.y};
+}
+
+// =================================================================================================
+bool Line::operator==(const Line& l) const
+{
+    return a / l.a == b / l.b && a / l.a == c / l.c;
 }
 
 // =================================================================================================

@@ -45,12 +45,17 @@ namespace gk
         float slope_y() const
         { return -a / b; }
 
+        float get_y(float x) const
+        { return (c - a*x) / b; }
+
         // construct from two points on the line
         Line(const Point& p1, const Point& p2);
 
         // translate by a vector
         Line operator+ (const Vector& p) const;
         Line operator- (const Vector& p) const;
+
+        bool operator==(const Line& l) const;
 
         bool valid(const Point& p) const;
     };

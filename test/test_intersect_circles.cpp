@@ -28,18 +28,18 @@ TEST_CASE(intersect_circles_outside_each_other_no_intersection)
 }
 
 // =================================================================================================
-IGNORE_TEST_CASE(intersect_circles_outside_each_other_two_intersections)
+TEST_CASE(intersect_circles_outside_each_other_two_intersections)
 {
     Circle c1{Point{1, 3}, 2}, c2{Point{5, 4}, 3};
 
     auto isec = intersect(c1, c2);
     CHECK_EQ(isec.size(), 2);
-    CHECK_EQ(isec[0], (Point{6.61851, 6.52595}));
-    CHECK_EQ(isec[1], (Point{7.61678, 2.53288}));
     CHECK(c2.valid(isec[0]));
     CHECK(c2.valid(isec[1]));
     CHECK(c1.valid(isec[0]));
     CHECK(c1.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{2.07901, 4.68397}));
+    CHECK_EQ(isec[1], (Point{2.74452, 2.02192}));
 }
 
 // =================================================================================================
@@ -124,18 +124,18 @@ TEST_CASE(intersect_circles_inside_each_other_crossing)
 }
 
 // =================================================================================================
-IGNORE_TEST_CASE(intersect_circles_outside_each_other_crossing)
+TEST_CASE(intersect_circles_outside_each_other_crossing)
 {
     Circle c1{Point{5,1}, 5}, c2{Point{1,5}, 3};
 
     auto isec = intersect(c1, c2);
     CHECK_EQ(isec.size(), 2);
-    CHECK_EQ(isec[0], (Point{1, -2}));
-    CHECK_EQ(isec[1], (Point{8, 5}));
     CHECK(c1.valid(isec[0]));
     CHECK(c1.valid(isec[1]));
     CHECK_EQ(gk::distance(c2.center, isec[0]), 3);
     CHECK(c2.valid(isec[0]));
     CHECK_EQ(gk::distance(c2.center, isec[1]), 3);
     CHECK(c2.valid(isec[1]));
+    CHECK_EQ(isec[0], (Point{0.129171, 2.12917}));
+    CHECK_EQ(isec[1], (Point{3.87083, 5.87083}));
 }
