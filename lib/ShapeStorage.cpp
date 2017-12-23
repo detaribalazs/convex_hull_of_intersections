@@ -13,7 +13,7 @@ size_t ShapeStorage::size() const
 }
 
 // =================================================================================================
-std::vector<Point> ShapeStorage::intersectAll() const
+std::vector<Point> ShapeStorage::intersect_all() const
 {
     std::vector<Point> intersections;
 

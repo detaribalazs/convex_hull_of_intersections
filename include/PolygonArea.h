@@ -7,5 +7,5 @@
 namespace gk
 {
     // returns the area of the convex polygon
-    float area(std::vector<Point> points);
+    float convex_area(std::vector<Point> points);
 }

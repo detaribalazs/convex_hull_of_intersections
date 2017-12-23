@@ -12,9 +12,9 @@ using namespace gk::detail;
 // =================================================================================================
 TEST_CASE(convex_hull_details_counter_clockwise)
 {
-    CHECK(isCounterClockwise(Vector{1, 2}, Vector{2, 4}, Vector{4, 8}) == 0);
-    CHECK(isCounterClockwise(Vector{1, 2}, Vector{2, 3}, Vector{4, 8}) > 0);
-    CHECK(isCounterClockwise(Vector{1, 2}, Vector{2, 5}, Vector{4, 8}) < 0);
+    CHECK(counter_clockwise(Vector{1, 2}, Vector{2, 4}, Vector{4, 8}) == 0);
+    CHECK(counter_clockwise(Vector{1, 2}, Vector{2, 3}, Vector{4, 8}) > 0);
+    CHECK(counter_clockwise(Vector{1, 2}, Vector{2, 5}, Vector{4, 8}) < 0);
 }
 
 // =================================================================================================
@@ -53,7 +53,7 @@ TEST_CASE(convex_hull_all_colinear)
 {
     std::vector<Point> points{{-3,-3}, {-1,-1}, {0,0}, {1,1}, {5,5}};
 
-    auto hull = convexHull(points);
+    auto hull = convex_hull(points);
     CHECK_EQ(hull.size(), 0);
     points.pop_back();
     CHECK_EQ(hull.size(), 0);
@@ -74,7 +74,7 @@ TEST_CASE(convex_hull_triangle)
         {3,2}, {2,3}, {3,1}, {1,3}, {5,4}, {5,5}, {4,5}
     };
 
-    auto hull = convexHull(points);
+    auto hull = convex_hull(points);
     std::copy(hull.begin(), hull.end(), std::ostream_iterator<Point>(std::cout, "\n"));
     CHECK_EQ(hull.size(), 3);
     CHECK_EQ(hull[0], (Point{-1,-1}));
@@ -91,7 +91,7 @@ TEST_CASE(convex_hull_triangle_with_colinear_edges)
         {3,2}, {2,3}, {3,1}, {1,3}, {5,4}, {5,5}, {4,5}
     };
 
-    auto hull = convexHull(points);
+    auto hull = convex_hull(points);
     std::copy(hull.begin(), hull.end(), std::ostream_iterator<Point>(std::cout, "\n"));
     CHECK_EQ(hull.size(), 3);
     CHECK_EQ(hull[0], (Point{0, 0}));
@@ -108,7 +108,7 @@ TEST_CASE(convex_hull_rectangle)
         {-0.3,-0.6}, {-0.9, 0.8}, { 0.9,-0.3}, { 0.0,-0.1}
     };
 
-    auto hull = convexHull(points);
+    auto hull = convex_hull(points);
     std::copy(hull.begin(), hull.end(), std::ostream_iterator<Point>(std::cout, "\n"));
     CHECK_EQ(hull.size(), 4);
     CHECK_EQ(*std::min_element(hull.begin(), hull.end()), (Point{-1,-1}));
@@ -128,7 +128,7 @@ TEST_CASE(convex_hull_rectangle_with_colinear_edges)
         {-0.3,-1  }, {-1  , 0.8}, { 1  ,-0.3}, { 1  ,-0.1}
     };
 
-    auto hull = convexHull(points);
+    auto hull = convex_hull(points);
     std::copy(hull.begin(), hull.end(), std::ostream_iterator<Point>(std::cout, "\n"));
     CHECK_EQ(hull.size(), 4);
     CHECK_EQ(*std::min_element(hull.begin(), hull.end()), (Point{-1,-1}));
@@ -158,7 +158,7 @@ TEST_CASE(convex_hull_example)
         {-2.6519, -2.1298}
     };
 
-    auto hull = convexHull(points);
+    auto hull = convex_hull(points);
     std::copy(hull.begin(), hull.end(), std::ostream_iterator<Point>(std::cout, "\n"));
     CHECK_EQ(hull.size(), 9);
 

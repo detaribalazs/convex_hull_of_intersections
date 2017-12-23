@@ -6,5 +6,5 @@
 
 namespace gk
 {
-    std::vector<Point> convexHull(std::vector<Point> points);
+    std::vector<Point> convex_hull(std::vector<Point> points);
 }

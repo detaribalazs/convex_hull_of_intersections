@@ -17,7 +17,7 @@ namespace gk
 
             size_t size() const;
 
-            std::vector<Point> intersectAll() const;
+            std::vector<Point> intersect_all() const;
 
         private:
             std::tuple<std::vector<LineSegment>, std::vector<Circle>> shapes;

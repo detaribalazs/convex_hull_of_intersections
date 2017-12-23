@@ -82,7 +82,7 @@ static Point centroid(const std::vector<Point>& points)
 }
 
 // =================================================================================================
-float gk::area(std::vector<Point> points)
+float gk::convex_area(std::vector<Point> points)
 {
     if (points.size() < 3)
         return 0.0f;

@@ -119,7 +119,7 @@ TEST_CASE(performance_Intersections)
         std::cout << "random circles: " << shapes.size() << std::endl;
         {
             TIMED_BLOCK(one_thousand_circles);
-            pcount = shapes.intersectAll().size();
+            pcount = shapes.intersect_all().size();
         }
         std::cout << "intersection points: " << pcount << std::endl;
     }
@@ -132,7 +132,7 @@ TEST_CASE(performance_Intersections)
         std::cout << "random lines: " << shapes.size() << std::endl;
         {
             TIMED_BLOCK(one_thousand_lines);
-            pcount = shapes.intersectAll().size();
+            pcount = shapes.intersect_all().size();
         }
         std::cout << "intersection points: " << pcount << std::endl;
     }
@@ -146,7 +146,7 @@ TEST_CASE(performance_Intersections)
         std::cout << "random lines and circles: " << shapes.size() << std::endl;
         {
             TIMED_BLOCK(two_thousand_shapes);
-            pcount = shapes.intersectAll().size();
+            pcount = shapes.intersect_all().size();
         }
         std::cout << "intersection points: " << pcount << std::endl;
     }
@@ -160,7 +160,7 @@ TEST_CASE(performance_Intersections)
         std::cout << "random lines and circles: " << shapes.size() << std::endl;
         {
             TIMED_BLOCK(three_thousand_shapes);
-            pcount = shapes.intersectAll().size();
+            pcount = shapes.intersect_all().size();
         }
         std::cout << "intersection points: " << pcount << std::endl;
     }
@@ -177,7 +177,7 @@ TEST_CASE(performance_ConvexHull)
     std::cout << "random points: " << points.size() << std::endl;
     {
         TIMED_BLOCK(one_thousand_points);
-        pcount = convexHull(points).size();
+        pcount = convex_hull(points).size();
     }
     std::cout << "points on convex hull: " << pcount << std::endl;
 
@@ -186,7 +186,7 @@ TEST_CASE(performance_ConvexHull)
     std::cout << "random points: " << points.size() << std::endl;
     {
         TIMED_BLOCK(ten_thousand_points);
-        pcount = convexHull(points).size();
+        pcount = convex_hull(points).size();
     }
     std::cout << "points on convex hull: " << pcount << std::endl;
 
@@ -195,7 +195,7 @@ TEST_CASE(performance_ConvexHull)
     std::cout << "random points: " << points.size() << std::endl;
     {
         TIMED_BLOCK(hundred_thousand_points);
-        pcount = convexHull(points).size();
+        pcount = convex_hull(points).size();
     }
     std::cout << "points on convex hull: " << pcount << std::endl;
 }
@@ -211,7 +211,7 @@ TEST_CASE(performance_PolygonArea)
     std::cout << "random points: " << points.size() << std::endl;
     {
         TIMED_BLOCK(one_thousand_points);
-        parea = area(points);
+        parea = convex_area(points);
     }
     std::cout << "area: " << parea << std::endl;
 
@@ -220,7 +220,7 @@ TEST_CASE(performance_PolygonArea)
     std::cout << "random points: " << points.size() << std::endl;
     {
         TIMED_BLOCK(ten_thousand_points);
-        parea = area(points);
+        parea = convex_area(points);
     }
     std::cout << "area: " << parea << std::endl;
 
@@ -229,7 +229,7 @@ TEST_CASE(performance_PolygonArea)
     std::cout << "random points: " << points.size() << std::endl;
     {
         TIMED_BLOCK(hundred_thousand_points);
-        parea = area(points);
+        parea = convex_area(points);
     }
     std::cout << "area: " << parea << std::endl;
 }

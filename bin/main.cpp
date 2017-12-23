@@ -25,7 +25,7 @@ int main()
     std::cerr << "Loaded " << shapes.size() << " shapes\n";
     assert(shapes.size() == numShapes);
 
-    auto intersections = shapes.intersectAll();
+    auto intersections = shapes.intersect_all();
     std::cerr << "Found " << intersections.size() << " intersections\n";
 
     std::cout << intersections.size() << '\n';
@@ -34,13 +34,13 @@ int main()
             intersections.end(),
             gk::OutputPointsIterator(std::cout));
 
-    auto hull = gk::convexHull(std::move(intersections));
+    auto hull = gk::convex_hull(std::move(intersections));
     std::cerr << "Found " << hull.size() << " convex hull points\n";
 
     std::cout << hull.size() << '\n';
     std::copy(hull.begin(), hull.end(), gk::OutputPointsIterator(std::cout));
 
-    auto area = gk::area(std::move(hull));
+    auto area = gk::convex_area(std::move(hull));
     std::cerr << "Area of the convex hull: " << std::fixed << std::setprecision(4) << area << '\n';
     std::cout << std::fixed << std::setprecision(4) << area << '\n';
 

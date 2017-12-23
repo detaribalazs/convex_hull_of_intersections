@@ -33,7 +33,7 @@ namespace gk
          *   returns = 0 : colinear
          *   returns < 0 : clockwise
          */
-        inline float isCounterClockwise(const Point& p1, const Point& p2, const Point& p3)
+        inline float counter_clockwise(const Point& p1, const Point& p2, const Point& p3)
         {
             return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x);
         }

@@ -6,7 +6,7 @@
 using namespace gk;
 
 // =================================================================================================
-std::vector<Point> gk::convexHull(std::vector<Point> points)
+std::vector<Point> gk::convex_hull(std::vector<Point> points)
 {
     using namespace ::gk::detail;
 
@@ -28,7 +28,7 @@ std::vector<Point> gk::convexHull(std::vector<Point> points)
     while (point != points.end())
     {
         while (hull.size() > 1 &&
-                isCounterClockwise(*std::next(hull.rbegin()), hull.back(), *point) <= 0)
+                counter_clockwise(*std::next(hull.rbegin()), hull.back(), *point) <= 0)
         {
             hull.pop_back();
         }
@@ -38,13 +38,13 @@ std::vector<Point> gk::convexHull(std::vector<Point> points)
     }
 
     if (hull.size() >= 3 &&
-            isCounterClockwise(*std::next(hull.rbegin()), hull.back(), hull.front()) == 0)
+            counter_clockwise(*std::next(hull.rbegin()), hull.back(), hull.front()) == 0)
     {
         // the last point is on the line from the last but one point  and the first point
         hull.pop_back();
     }
 
-    if (hull.size() < 3 || isCounterClockwise(hull[0], hull[1], hull[2]) == 0)
+    if (hull.size() < 3 || counter_clockwise(hull[0], hull[1], hull[2]) == 0)
         hull.clear();
 
     return hull;
