@@ -152,7 +152,6 @@ TEST_CASE(intersect_line_circle_origo_based_generic_crossing)
     LineSegment l{Point{0, sqrt2 * r - 1}, Point{sqrt2*r - 1, 0}};
     Circle c{Point{0,0}, r};
 
-    CHECK_EQ(l.slope_y(), -1.0);
     auto isec = intersect(l,c);
     CHECK_EQ(isec.size(), 2);
     CHECK(l.line().valid(isec[0]));
@@ -184,7 +183,6 @@ TEST_CASE(intersect_line_circle_origo_based_generic_crossing_backward_line)
     LineSegment l{Point{sqrt2 * r - 1, 0}, Point{0, sqrt2*r - 1}};
     Circle c{Point{0,0}, r};
 
-    CHECK_EQ(l.slope_y(), -1.0);
     auto isec = intersect(l,c);
     CHECK_EQ(isec.size(), 2);
     CHECK(l.line().valid(isec[0]));
@@ -202,7 +200,6 @@ TEST_CASE(intersect_line_circle_origo_based_upper_crossing_positive_slope)
     Circle c{Point{0,0}, 6};
     const float srr = sqrt(c.radius * c.radius / 2.0);
 
-    CHECK_EQ(l.slope_y(), 1.0);
     auto isec = intersect(l,c);
     CHECK_EQ(isec.size(), 1);
     CHECK(l.line().valid(isec[0]));
@@ -217,7 +214,6 @@ TEST_CASE(intersect_line_circle_origo_based_lower_crossing_positive_slope)
     Circle c{Point{0,0}, 6};
     const float srr = sqrt(c.radius * c.radius / 2.0);
 
-    CHECK_EQ(l.slope_y(), 1.0);
     auto isec = intersect(l,c);
     CHECK_EQ(isec.size(), 1);
     CHECK(l.line().valid(isec[0]));
@@ -232,7 +228,6 @@ TEST_CASE(intersect_line_circle_origo_based_full_crossing_positive_slope)
     Circle c{Point{0,0}, 6};
     const float srr = sqrt(c.radius * c.radius / 2.0);
 
-    CHECK_EQ(l.slope_y(), 1.0);
     auto isec = intersect(l,c);
     CHECK_EQ(isec.size(), 2);
     CHECK(l.line().valid(isec[0]));

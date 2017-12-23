@@ -1,5 +1,6 @@
 #include <Shapes.h>
 
+#include <cassert>
 #include <cmath>
 
 using namespace gk;
@@ -71,7 +72,19 @@ Line Line::operator- (const Vector& p) const
 // =================================================================================================
 bool Line::operator==(const Line& l) const
 {
+    if (a == 0.0 && l.a == 0.0)
+        return b / l.b == c / l.c;
+    if (b == 0.0 && l.b == 0.0)
+        return a / l.a == c / l.c;
+    if (c == 0.0 && l.c == 0.0)
+        return a / l.a == b / l.b;
     return a / l.a == b / l.b && a / l.a == c / l.c;
+}
+
+// =================================================================================================
+std::ostream& gk::operator<<(std::ostream& out, const Line& l)
+{
+    return out << "Line("<< l.a << ", " << l.b << ", " << l.c << ')';
 }
 
 // =================================================================================================
@@ -81,12 +94,21 @@ bool Line::valid(const Point& p) const
 }
 
 // =================================================================================================
+Line::Line(float a, float b, float c)
+    : a(a), b(b), c(c)
+{
+    assert(a != 0.0 || b != 0.0 || c != 0.0);
+}
+
+// =================================================================================================
 Line::Line(const Point& p1, const Point& p2)
 {
+    assert (p1 != p2);
+
     const auto delta_x = p2.x - p1.x;
     const auto delta_y = p2.y - p1.y;
 
-    if (delta_x > delta_y)
+    if (std::fabs(delta_x) > std::fabs(delta_y))
     {
         const auto y0 = p1.y - delta_y / delta_x * p1.x;
         a = - delta_y;
@@ -105,51 +127,31 @@ Line::Line(const Point& p1, const Point& p2)
 // =================================================================================================
 LineSegment LineSegment::operator+ (const Vector& p) const
 {
-    return LineSegment(endPoints[0] + p, endPoints[1] + p);
+    return LineSegment(_bounds + p, _line + p);
 }
 
 // =================================================================================================
 LineSegment LineSegment::operator- (const Vector& p) const
 {
-    return LineSegment(endPoints[0] - p, endPoints[1] - p);
+    return LineSegment(_bounds - p, _line - p);
 }
 
 // =================================================================================================
 LineSegment::LineSegment(const Point& p1, const Point& p2)
-    : endPoints{std::min(p1, p2), std::max(p1, p2)}
-    , _line(endPoints[0], endPoints[1])
+    : _bounds(p1, p2)
+    , _line(p1, p2)
+//    , _line(std::min(p1, p2), std::max(p1, p2))
 {}
 
 // =================================================================================================
-float LineSegment::get_x(float y) const
-{
-    return endPoints[0].x + slope_x() * (y - endPoints[0].y);
-}
-
-// =================================================================================================
-float LineSegment::get_y(float x) const
-{
-    return endPoints[0].y + slope_y() * (x - endPoints[0].x);
-}
-
-// =================================================================================================
-bool LineSegment::valid_x(float x) const
-{
-    return (std::min(endPoints[0].x, endPoints[1].x) - x < 1e-5)
-        && (std::max(endPoints[0].x, endPoints[1].x) - x > -1e-5);
-}
-
-// =================================================================================================
-bool LineSegment::valid_y(float y) const
-{
-    return (std::min(endPoints[0].y, endPoints[1].y) - y < 1e-5)
-        && (std::max(endPoints[0].y, endPoints[1].y) - y > -1e-5);
-}
+LineSegment::LineSegment(const BoundsXY& bounds, const Line& line)
+    : _bounds(bounds), _line(line)
+{}
 
 // =================================================================================================
 bool LineSegment::valid(const Point& p) const
 {
-    return valid_x(p.x) && valid_y(p.y);
+    return _bounds.valid(p) && _line.valid(p);
 }
 
 // =================================================================================================

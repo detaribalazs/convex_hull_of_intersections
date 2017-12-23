@@ -35,9 +35,10 @@ namespace gk
         Line() {}
 
         // construct from coefficients
-        Line(float a, float b, float c)
-            : a(a), b(b), c(c)
-        {}
+        Line(float a, float b, float c);
+
+        // construct from two points on the line
+        Line(const Point& p1, const Point& p2);
 
         float slope_x() const
         { return -b / a; }
@@ -45,11 +46,11 @@ namespace gk
         float slope_y() const
         { return -a / b; }
 
+        float get_x(float y) const
+        { return (c - b*y) / a; }
+
         float get_y(float x) const
         { return (c - a*x) / b; }
-
-        // construct from two points on the line
-        Line(const Point& p1, const Point& p2);
 
         // translate by a vector
         Line operator+ (const Vector& p) const;
@@ -60,44 +61,67 @@ namespace gk
         bool valid(const Point& p) const;
     };
 
+    std::ostream& operator<<(std::ostream& out, const Line& l);
+
+    struct Bounds
+    {
+        float lower, upper;
+
+        Bounds operator+ (float d) const
+        { return {lower + d, upper + d}; }
+
+        Bounds operator- (float d) const
+        { return {lower - d, upper - d}; }
+
+        bool valid(float value) const
+        { return lower <= value && value <= upper; }
+    };
+
+    struct BoundsXY
+    {
+        Bounds x, y;
+
+        // construct from two corners of a rectangle
+        BoundsXY(const Point& p1, const Point& p2)
+            : x{std::min(p1.x, p2.x), std::max(p1.x, p2.x)}
+            , y{std::min(p1.y, p2.y), std::max(p1.y, p2.y)}
+        {}
+
+        // construct from separate x and y bounds
+        BoundsXY(const Bounds& x, const Bounds& y)
+            : x(x), y(y)
+        {}
+
+        // translations
+        BoundsXY operator+ (const Vector& p) const
+        { return {x + p.x, y + p.y}; }
+        BoundsXY operator- (const Vector& p) const
+        { return {x - p.x, y - p.y}; }
+
+        bool valid(const Point& p) const
+        { return x.valid(p.x) && y.valid(p.y); }
+    };
+
     class LineSegment
     {
         public:
+            // construct from two points
             LineSegment(const Point& p1, const Point& p2);
+
+            // construct from bounds and an infinite line
+            LineSegment(const BoundsXY& bounds, const Line& line);
 
             // translations
             LineSegment operator+ (const Vector& p) const;
             LineSegment operator- (const Vector& p) const;
 
-            bool operator == (const LineSegment& l) const { return endPoints == l.endPoints; }
-
-            // access end-points
-            const Point& operator[](unsigned i) const { return endPoints[i]; }
-
-            // line features
-            float delta_y() const { return endPoints[1].y - endPoints[0].y;}
-            float delta_x() const { return endPoints[1].x - endPoints[0].x; }
-
-            float slope_y() const { return delta_y() / delta_x(); }
-            float slope_x() const { return delta_x() / delta_y(); }
-
-            bool is_vertical() const { return delta_x() == 0.0; }
-            bool is_horizontal() const { return delta_y() == 0.0; }
-
-            // evaluate the line equation (no bounds checking)
-            float get_y(float x) const;
-            float get_x(float y) const;
-
             // bounds checking
-            bool valid_x(float x) const;
-            bool valid_y(float y) const;
             bool valid(const Point& p) const;
 
-            const Line& line() const
-            { return _line; }
+            const Line& line() const { return _line; }
 
         private:
-            Point endPoints[2];
+            BoundsXY _bounds;
             Line _line;
     };
 
