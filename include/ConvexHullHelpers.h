@@ -13,7 +13,7 @@ namespace gk
             Vector ref;
 
             // compare polar angles of lines from ref to a and from ref to b
-            bool operator() (const Point& a, const Point& b) const
+            constexpr bool operator() (const Point& a, const Point& b) const noexcept
             {
                 return atan2(a.y-ref.y, a.x-ref.x) < atan2(b.y-ref.y, b.x-ref.x);
             }
@@ -21,7 +21,7 @@ namespace gk
 
         struct CompareYX
         {
-            bool operator() (const Point& a, const Point& b) const
+            constexpr bool operator() (const Point& a, const Point& b) const noexcept
             {
                 return a.y < b.y ? true : (b.y < a.y ? false : a.x < b.x);
             }
@@ -33,7 +33,7 @@ namespace gk
          *   returns = 0 : colinear
          *   returns < 0 : clockwise
          */
-        inline float counter_clockwise(const Point& p1, const Point& p2, const Point& p3)
+        inline constexpr float counter_clockwise(const Point& p1, const Point& p2, const Point& p3) noexcept
         {
             return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x);
         }

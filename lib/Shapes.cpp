@@ -6,13 +6,13 @@
 using namespace gk;
 
 // =================================================================================================
-bool Point::operator< (const Point& p) const
+bool Point::operator< (const Point& p) const noexcept
 {
     return x < p.x ? true : (p.x < x ? false : y < p.y);
 }
 
 // =================================================================================================
-Point& Point::operator+= (const Vector& p)
+Point& Point::operator+= (const Vector& p) noexcept
 {
     x += p.x;
     y += p.y;
@@ -20,13 +20,13 @@ Point& Point::operator+= (const Vector& p)
 }
 
 // =================================================================================================
-Point Point::operator+ (const Vector& p) const
+Point Point::operator+ (const Vector& p) const noexcept
 {
     return Point{x + p.x, y + p.y};
 }
 
 // =================================================================================================
-Point& Point::operator-= (const Vector& p)
+Point& Point::operator-= (const Vector& p) noexcept
 {
     x -= p.x;
     y -= p.y;
@@ -34,7 +34,7 @@ Point& Point::operator-= (const Vector& p)
 }
 
 // =================================================================================================
-Point Point::operator- (const Vector& p) const
+Point Point::operator- (const Vector& p) const noexcept
 {
     return Point{x - p.x, y - p.y};
 }
@@ -46,31 +46,31 @@ std::ostream& gk::operator<<(std::ostream& out, const Point& p)
 }
 
 // =================================================================================================
-inline float square(float x)
+inline float square(float x) noexcept
 {
     return x*x;
 }
 
 // =================================================================================================
-float gk::distance(const Point& p1, const Point& p2)
+float gk::distance(const Point& p1, const Point& p2) noexcept
 {
     return sqrt(square(p1.x-p2.x) + square(p1.y-p2.y));
 }
 
 // =================================================================================================
-Line Line::operator+ (const Vector& p) const
+Line Line::operator+ (const Vector& p) const noexcept
 {
     return Line{a, b, c + a*p.x + b*p.y};
 }
 
 // =================================================================================================
-Line Line::operator- (const Vector& p) const
+Line Line::operator- (const Vector& p) const noexcept
 {
     return Line{a, b, c - a*p.x - b*p.y};
 }
 
 // =================================================================================================
-bool Line::operator==(const Line& l) const
+bool Line::operator==(const Line& l) const noexcept
 {
     if (a == 0.0 && l.a == 0.0)
         return b / l.b == c / l.c;
@@ -88,7 +88,7 @@ std::ostream& gk::operator<<(std::ostream& out, const Line& l)
 }
 
 // =================================================================================================
-bool Line::valid(const Point& p) const
+bool Line::valid(const Point& p) const noexcept
 {
     return std::fabs(a*p.x+b*p.y - c) < 1e-5;
 }
@@ -125,13 +125,13 @@ Line::Line(const Point& p1, const Point& p2)
 }
 
 // =================================================================================================
-LineSegment LineSegment::operator+ (const Vector& p) const
+LineSegment LineSegment::operator+ (const Vector& p) const noexcept
 {
     return LineSegment(_bounds + p, _line + p);
 }
 
 // =================================================================================================
-LineSegment LineSegment::operator- (const Vector& p) const
+LineSegment LineSegment::operator- (const Vector& p) const noexcept
 {
     return LineSegment(_bounds - p, _line - p);
 }
@@ -140,28 +140,27 @@ LineSegment LineSegment::operator- (const Vector& p) const
 LineSegment::LineSegment(const Point& p1, const Point& p2)
     : _bounds(p1, p2)
     , _line(p1, p2)
-//    , _line(std::min(p1, p2), std::max(p1, p2))
 {}
 
 // =================================================================================================
-LineSegment::LineSegment(const BoundsXY& bounds, const Line& line)
+LineSegment::LineSegment(const BoundsXY& bounds, const Line& line) noexcept
     : _bounds(bounds), _line(line)
 {}
 
 // =================================================================================================
-bool LineSegment::valid(const Point& p) const
+bool LineSegment::valid(const Point& p) const noexcept
 {
     return _bounds.valid(p) && _line.valid(p);
 }
 
 // =================================================================================================
-bool Circle::is_inside(const Point& p) const
+bool Circle::is_inside(const Point& p) const noexcept
 {
     return distance(center, p) < radius;
 }
 
 // =================================================================================================
-bool Circle::valid(const Point& p) const
+bool Circle::valid(const Point& p) const noexcept
 {
     return std::fabs(distance(center, p) - radius) < 1e-5;
 }
