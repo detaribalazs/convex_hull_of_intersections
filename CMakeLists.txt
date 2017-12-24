@@ -9,6 +9,7 @@ file(GLOB lib_source "lib/*.cpp")
 file(GLOB bin_source "bin/*.cpp")
 
 set(unit_test_source
+    test/test_static.cpp
     test/test_Line.cpp
     test/test_LineSegment.cpp
     test/test_intersect_two_lines.cpp

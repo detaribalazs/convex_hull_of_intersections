@@ -32,8 +32,6 @@ namespace gk
         // coefficients of the line equation: ax + by = c
         float a, b, c;
 
-        Line() {}
-
         // construct from coefficients
         Line(float a, float b, float c);
 
