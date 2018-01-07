@@ -31,8 +31,9 @@ if (CMAKE_BUILD_TYPE STREQUAL "none")
     set(CMAKE_BUILD_TYPE release)
 endif (CMAKE_BUILD_TYPE STREQUAL "none")
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -march=native")
+#set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_COMPILER clang++-5.0)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra -Werror -march=native")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 

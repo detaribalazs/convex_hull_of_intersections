@@ -13,7 +13,7 @@ namespace gk
             Vector ref;
 
             // compare polar angles of lines from ref to a and from ref to b
-            constexpr bool operator() (const Point& a, const Point& b) const noexcept
+            bool operator() (const Point& a, const Point& b) const noexcept
             {
                 return atan2(a.y-ref.y, a.x-ref.x) < atan2(b.y-ref.y, b.x-ref.x);
             }

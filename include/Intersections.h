@@ -19,11 +19,11 @@ namespace gk
             Intersections() = default;
 
             Intersections(const Point& p1)
-                : points{p1}, count(1)
+                : points{{p1}}, count(1)
             {}
 
             Intersections(const Point& p1, const Point& p2)
-                : points{p1, p2}, count(2)
+                : points{{p1, p2}}, count(2)
             {}
 
             void add(const Point& p);
