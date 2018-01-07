@@ -5,7 +5,7 @@
   The implented algorithm for the convex hull computation is a [Graham scan](https://en.wikipedia.org/wiki/Graham_scan).
 
 ## Requirements
-  - C++14 compatible compiler
+  - C++17 compatible compiler
   - cmake >= 3.1 and ctest
   - for script/show.py python 2.7 with matplotlib
 
